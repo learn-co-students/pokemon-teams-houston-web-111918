@@ -46,11 +46,8 @@ function render(){
             pokemonCard.append(addPoke)
             
             addPoke.addEventListener('click', () => {
-
                 if(trainer.pokemons.length < 6) {
-                
                     currentTrainer = trainer
-                    
                     fetch(POKEMONS_URL, {
 
                         method: 'POST',
@@ -64,27 +61,32 @@ function render(){
                             //     -- > "[object Object]"
                             trainer_id: `${currentTrainer.id}`,
                         })
-                    
                     }) // FETCH END
                     .then(render)
-                    // trainers.push(currentTrainer) 
                 }
                 })
             
-        // console.log(trainer.pokemons)
-        // let list = c('ul')
         let pokemon = []
         trainer.pokemons.forEach(poke => {
+            // currentPokemon = poke
+            // console.log("CURRENT", currentPokemon)
+            // console.log("POKE", poke)
+
             let li = c('li')
             li.innerText = poke.nickname + ' ' + "(" + poke.species +")"
-        
             let butt = c('button')
             butt.setAttribute("class", "release")
             butt.setAttribute("data-pokemon-id", `${poke.id}`)
             butt.innerHTML = "RELEASE"
             li.append(butt)
+                list.append(li)
+                    butt.addEventListener('click', () => {
+                        fetch(`http://localhost:3000/pokemons/${poke.id}`, {
+                            method: 'delete'
+                        })
+                        .then(render)
 
-        list.append(li)
+                    })
         })
             
         
